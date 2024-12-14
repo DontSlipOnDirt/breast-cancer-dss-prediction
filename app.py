@@ -1,4 +1,7 @@
 import streamlit as st
+import pandas as pd
+
+data = pd.read_csv("data/test_data.csv")
 
 def generate_report():
 
@@ -8,17 +11,24 @@ def generate_report():
     return report
 
 with st.sidebar:
-    add_radio = st.radio(
-        "Choose an example to view",
-        ("Example 1 (not survivor)", "Example 2 (survivor)", "Random Patient")
+    select_case = st.radio(
+        "Choose input",
+        ("Example 1", "Example 2", "Random Patient", "Custom")
     )
+
+if select_case == "Example 1 (not survivor)":
+    index = 0
+elif select_case == "Example 2 (survivor)":
+    index = 1
+elif select_case == "Random Patient":
+    index = 2
 
 st.title("Breast Cancer DSS predictor")
 
-st.markdown("## Genetic Expression Data")
-
 # genetic data
+st.markdown("## Genetic Expression Data")
 st.text_input("Enter comma-separated expression values")
+
 # ESR1 = st.number_input("Enter expression value:", min_value=0.0, max_value=1.0, step=0.1, key="ESR1")
 # PGR = st.number_input("Enter expression value:", min_value=0.0, max_value=1.0, step=0.1, key=0)
 # ERBB2 = st.number_input("Enter expression value:", min_value=0.0, max_value=1.0, step=0.1, key=1)
@@ -40,26 +50,29 @@ st.text_input("Enter comma-separated expression values")
 # PLK1 = st.number_input("Enter expression value:", min_value=0.0, max_value=1.0, step=0.1, key=17)
 # GSK3B = st.number_input("Enter expression value:", min_value=0.0, max_value=1.0, step=0.1, key=18)
 
-st.markdown("## Clinical Data")
 
 # clinical data
-age = st.number_input("Enter age:", min_value=0, max_value=120, step=1)
-menopausal_state = st.toggle("Menopausal State")
+st.markdown("## Clinical Data")
+age_input = st.number_input("Enter age:", min_value=0, max_value=120, step=1)
+menopausal_state_input = st.toggle("Menopausal State")
+
 st.markdown("### Tumour data")
-tumour_size = st.number_input("Enter tumour size in cm:", key = "tumour_size")
-neoplasm_histologic_grade = st.selectbox("Neoplasm Histologic Grade", [1, 2, 3, 4])
-cellularity = st.selectbox("Cellularity", ["Low","Medium", "High"])
+tumour_size_input = st.number_input("Enter tumour size in cm:", key="tumour_size")
+neoplasm_histologic_grade_input = st.selectbox("Neoplasm Histologic Grade", [1, 2, 3, 4])
+cellularity_input = st.selectbox("Cellularity", ["Low","Medium", "High"])
+
 st.markdown("### Therapies")
-radio_therapy = st.toggle("Radio therapy")
-chemotherapy = st.toggle("Chemotherapy")
-hormone_therapy = st.toggle("Hormone Therapy")
+radio_therapy_input = st.toggle("Radio therapy", value=1)
+chemotherapy_input = st.toggle("Chemotherapy")
+hormone_therapy_input = st.toggle("Hormone Therapy")
+
 st.markdown("### Surgeries")
-surgery_breast_conserving = st.toggle("Breast conserving surgery")
-surgery_mastectomy = st.toggle("Masectomy")
+surgery_breast_conserving_input = st.toggle("Breast conserving surgery")
+surgery_mastectomy_input = st.toggle("Masectomy")
 
 # Generate report button
 if st.button("Generate Report"):
-    if age > 0:
+    if age_input > 0:
         report = generate_report()
         st.markdown(report)
     else:
