@@ -1,27 +1,39 @@
 import streamlit as st
 import pandas as pd
 
+# read in data to display
 data = pd.read_csv("data/test_data.csv")
 
+# generate UI depending on selection
+def input_page(generate=False):
+    return
+
+# generate report
 def generate_report():
 
     report = f"""
     # You are going to die in 2 days :)
     """
+    st.pyplot()
+
     return report
 
+# sidebar
 with st.sidebar:
     select_case = st.radio(
         "Choose input",
         ("Example 1", "Example 2", "Random Patient", "Custom")
     )
 
+# change page depending on sidebar input
 if select_case == "Example 1 (not survivor)":
     index = 0
 elif select_case == "Example 2 (survivor)":
     index = 1
 elif select_case == "Random Patient":
     index = 2
+elif select_case == "Custom":
+    index = 3
 
 st.title("Breast Cancer DSS predictor")
 
