@@ -80,6 +80,6 @@ surgery_breast_conserving_input = st.toggle("Breast conserving surgery", value=p
 surgery_mastectomy_input = st.toggle("Masectomy", value=patient['Surgery-mastectomy'])
 
 st.pyplot(plot_surv_curve(index))
-st.write(f"Actual label: {patient['Label']}")
-predicted_row = predicted_labels.iloc[index]
-st.write(f"Predicted label: {predicted_row['Label']}")
+# st.write(f"Actual label: {patient['Label']}")
+# predicted_row = predicted_labels.iloc[index]
+# st.write(f"Predicted label: {predicted_row['Label']}")
