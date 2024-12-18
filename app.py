@@ -53,6 +53,7 @@ with st.sidebar:
         index = random.randint(0, 117)
         patient = data.iloc[index]
 
+# main page
 st.title("Breast Cancer DSS predictor")
 
 # genetic data
