@@ -9,9 +9,11 @@ __pycache__/
 *.so
 
 # Latex
-report/root.*
-!report/root.tex
-!report/root.pdf
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.gz
 
 # Distribution / packaging
 .Python
