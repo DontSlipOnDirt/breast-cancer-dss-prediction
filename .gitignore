@@ -163,5 +163,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-./report/root.aux
-./report/root.log
+report/root.*
+!report/root.tex
+!report/root.pdf
