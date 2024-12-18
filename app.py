@@ -5,8 +5,9 @@ import matplotlib.pyplot as plt
 
 # read in data to display
 data = pd.read_csv("data/test_data.csv")
-predicted_label = pd.read_csv("survival_labels.csv")
+predicted_labels = pd.read_csv("survival_labels.csv")
 index = 0
+patient = data.iloc[index]
 
 # plot survival curve
 survival_probabilities = pd.read_csv("survival_probabilities.csv")
@@ -26,7 +27,7 @@ def plot_surv_curve(index):
 
     # Plot on the subplot
     ax.plot(time_points, patient_probabilities, marker='o', label="Survival Probability")
-    ax.axvline(x='60', color='red', linestyle='--', label='x = 60')
+    ax.axvline(x='60', color='red', linestyle='--', label='5-year mark')
     ax.set_title("Survival Curve for Patient in Test Dataset")
     ax.set_xlabel("Months")
     ax.set_ylabel("Survival Score")
@@ -36,57 +37,48 @@ def plot_surv_curve(index):
 
     return fig
 
-# generate report
-def generate_report():
-    
-    st.pyplot(plot_surv_curve(index))
-
 # sidebar
 with st.sidebar:
-    select_case = st.radio(
-        "Choose input",
-        ("Example 1", "Example 2", "Random Patient")
-    )
+    st.write("Choose example input")
 
-# change page depending on sidebar input
-if select_case == "Example 1 (not survivor)":
-    index = 15
-    patient = data.iloc[index]
+    if st.button("Example 1 (not survivor)"):
+        index = 15
+        patient = data.iloc[index]
 
-elif select_case == "Example 2 (survivor)":
-    index = 1
+    if st.button("Example 2 (survivor)"):
+        index = 1
+        patient = data.iloc[index]
 
-elif select_case == "Random Patient":
-    index = random.randint(0, 117)
+    if st.button("Random patient"):
+        index = random.randint(0, 117)
+        patient = data.iloc[index]
 
 st.title("Breast Cancer DSS predictor")
 
 # genetic data
 st.markdown("## Genetic Expression Data")
-st.text_input("Enter comma-separated expression values")
+# st.write(patient['ESR1','PGR','ERBB2','MKI67','PLAU','ELAVL1','EGFR','BTRC','FBXO6','SHMT2','KRAS','SRPK2','YWHAQ','PDHA1','EWSR1','ZDHHC17','ENO1','DBN1','PLK1','GSK3B'])
 
 # clinical data
 st.markdown("## Clinical Data")
-age_input = st.number_input("Enter age:", min_value=0, max_value=120, step=1)
-menopausal_state_input = st.toggle("Menopausal State")
+age_input = st.number_input("Age:", value=patient['Age'])
+menopausal_state_input = st.toggle("Menopausal State", value=patient['Menopausal State'])
 
 st.markdown("### Tumour data")
-tumour_size_input = st.number_input("Enter tumour size in cm:", key="tumour_size")
-neoplasm_histologic_grade_input = st.selectbox("Neoplasm Histologic Grade", [1, 2, 3, 4])
-cellularity_input = st.selectbox("Cellularity", ["Low","Medium", "High"])
+tumour_size_input = st.number_input("Enter tumour size in cm:", key="tumour_size", value=patient['Size'])
+neoplasm_histologic_grade_input = st.number_input("Neoplasm Histologic Grade", key="neoplasm", value=patient['Neoplasm Histologic Grade'])
+cellularity_input = st.number_input("Cellularity", value=patient['Cellularity'])
 
 st.markdown("### Therapies")
-radio_therapy_input = st.toggle("Radio therapy", value=1)
-chemotherapy_input = st.toggle("Chemotherapy")
-hormone_therapy_input = st.toggle("Hormone Therapy")
+radio_therapy_input = st.toggle("Radio therapy", value=patient['Radio Therapy'])
+chemotherapy_input = st.toggle("Chemotherapy", value=patient['Chemotherapy'])
+hormone_therapy_input = st.toggle("Hormone Therapy", value=patient['Hormone Therapy'])
 
 st.markdown("### Surgeries")
-surgery_breast_conserving_input = st.toggle("Breast conserving surgery")
-surgery_mastectomy_input = st.toggle("Masectomy")
+surgery_breast_conserving_input = st.toggle("Breast conserving surgery", value=patient['Surgery-breast conserving'])
+surgery_mastectomy_input = st.toggle("Masectomy", value=patient['Surgery-mastectomy'])
 
-# Generate report button
-if st.button("Generate Report"):
-    if age_input > 0:
-        generate_report()
-    else:
-        st.error("Please fill out the age field.")
+st.pyplot(plot_surv_curve(index))
+st.write(f"Actual label: {patient['Label']}")
+predicted_row = predicted_labels.iloc[index]
+st.write(f"Predicted label: {predicted_row['Label']}")
