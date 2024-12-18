@@ -1,0 +1,165 @@
+% !TEX root = ./root.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%2345678901234567890123456789012345678901234567890123456789012345678901234567890
+%        1         2         3         4         5         6         7         8
+
+\documentclass[letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out if you need a4paper
+
+%\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4 paper
+
+\IEEEoverridecommandlockouts                              % This command is only needed if 
+                                                          % you want to use the \thanks command
+
+\overrideIEEEmargins                                      % Needed to meet printer requirements.
+
+%In case you encounter the following error:
+%Error 1010 The PDF file may be corrupt (unable to open PDF file) OR
+%Error 1000 An error occurred while parsing a contents stream. Unable to analyze the PDF file.
+%This is a known problem with pdfLaTeX conversion filter. The file cannot be opened with acrobat reader
+%Please use one of the alternatives below to circumvent this error by uncommenting one or the other
+%\pdfobjcompresslevel=0
+%\pdfminorversion=4
+
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+
+% The following packages can be found on http:\\www.ctan.org
+%\usepackage{graphics} % for pdf, bitmapped graphics files
+%\usepackage{epsfig} % for postscript graphics files
+%\usepackage{mathptmx} % assumes new font selection scheme installed
+%\usepackage{times} % assumes new font selection scheme installed
+%\usepackage{amsmath} % assumes amsmath package installed
+%\usepackage{amssymb}  % assumes amsmath package installed
+
+\title{\LARGE \bf
+Breast Cancer Disease-Specific Survival Prediction Utilizing Semi-Supervised and Deep Learning Approaches
+}
+
+
+\author{Allen Du,
+Angel Hsia, 
+Misael Alanis, 
+Danniv Arnon, and
+Jacob Chen% <-this % stops a space
+}
+
+\begin{document}
+
+
+
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+
+This is the abstract. Example text Example text Example text Example text Example text.
+
+{\textbf{\textit{Clinical Relevance}}}\textemdash This might be clinically relevant I'm not sure, to be honest.
+
+\end{abstract}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{INTRODUCTION}
+
+Breast cancer is kind of a big issue I think.
+
+\section{RELATED WORKS}
+
+\subsection{Related Paper 1}
+
+First, Example text Example text Example text Example text.
+
+\subsection{Related Paper 2}
+
+Another paper is
+
+\section{METHOD}
+
+The methods
+
+\subsection{Models}
+
+\begin{itemize}
+
+\item DeepSurv
+\item Transformer
+
+\end{itemize}
+
+Furthermore, 
+
+
+\section{EXPERIMENT SETUPS AND DATASETS}
+
+This section
+
+\section{RESULTS}
+
+Results are not that good :(
+
+\subsection{Figures and Tables}
+
+\begin{table}[h]
+\caption{Model performance}
+\label{table_example}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Model & Accuracy\\
+\hline
+DNN & 0.73\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+   \begin{figure}[thpb]
+      \centering
+      \framebox{\parbox{3in}{Maybe some figure
+}}
+      %\includegraphics[scale=1.0]{figurefile}
+      \caption{Very cool figure}
+      \label{figurelabel}
+   \end{figure}
+   
+
+Figures are cool
+
+\section{DISCUSSION}
+
+Discussion of results 
+
+\section{CONCLUSION}
+
+\addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
+                                  % on the last page of the document manually. It shortens
+                                  % the textheight of the last page by a suitable amount.
+                                  % This command does not take effect until the next page
+                                  % so it should come on the page before the last. Make
+                                  % sure that you do not shorten the textheight too much.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{thebibliography}{99}
+
+\bibitem{c1} First Reference 
+
+\end{thebibliography}
+
+
+\end{document}
