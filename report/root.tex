@@ -1,11 +1,7 @@
-% !TEX root = ./root.tex
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%2345678901234567890123456789012345678901234567890123456789012345678901234567890
-%        1         2         3         4         5         6         7         8
-
-% Comment this line out if you need a4paper
 \documentclass[conference]{ieeeconf}
 
+% Necesarry to run this code
+% sudo apt-get install texlive-publishers
 
 % The following packages can be found on http:\\www.ctan.org
 %\usepackage{graphics} % for pdf, bitmapped graphics files
@@ -56,35 +52,55 @@ This is the abstract. Example text Example text Example text Example text Exampl
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{INTRODUCTION}
+\section{Introduction}
 
-Breast cancer is kind of a big issue I think.
+Breast cancer prognosis plays a critical role in personalized treatment planning.
+This study explores prediction techniques by leveraging a dataset comprising 20
+genetic expression variables, 10 clinical features, 500+ labelled rows with survival
+times, and 1000 unlabelled rows. We applied semi-supervised learning (SSL) methods
+to utilize the unlabelled data effectively. A Cox proportional hazards model combined
+with a feed-forward neural network (DeepSurv) was used to predict survival time points,
+diverging from the traditional 5-year disease-specific survival (DSS) binary
+classification. Additionally, a transformer model was implemented to compare
+prediction accuracy. While our approach achieved higher accuracy than the original
+study, it did not surpass the original paper's AUC. Our key innovations include
+the SSL methodology and the prediction of survival time points, offering a nuanced
+perspective on breast cancer prognosis.
 
-\section{RELATED WORKS}
+\section{Related works}
 
-\subsection{VIME (reference 1)}
+\subsection{VIME}
 
-First, Example text Example text Example text Example text.
-
-\subsection{SCARF (reference 2)}
-
-VIME (Variational Information Maximizing Exploration) is a method proposed by 
+VIME (Variational Information Maximizing Exploration) \cite{bahri2022scarf}
+is a method proposed by 
 Yoon et al. in 2020. It is designed for semi-supervised learning, where the goal
- is to effectively utilize both labeled and unlabeled data. VIME leverages a
-  variational information maximization framework to enhance the representation 
-  learning process. The key components of VIME include a feature encoder, a 
-  feature decoder, and a discriminator. The feature encoder maps input data to 
-  a latent space, while the feature decoder reconstructs the input data from the 
-  latent representation. The discriminator is used to distinguish between real and generated samples, promoting the learning of meaningful representations. VIME has shown promising results in various benchmark datasets, demonstrating its effectiveness in improving the performance of semi-supervised learning tasks.
+is to effectively utilize both labeled and unlabeled data. VIME leverages a
+variational information maximization framework to enhance the representation 
+learning process. The key components of VIME include a feature encoder, a 
+feature decoder, and a discriminator. The feature encoder maps input data to 
+a latent space, while the feature decoder reconstructs the input data from the 
+latent representation. The discriminator is used to distinguish between real
+and generated samples, promoting the learning of meaningful representations.
+VIME has shown promising results in various benchmark datasets, demonstrating
+its effectiveness in improving the performance of semi-supervised learning tasks.
 
-\subsection{DeepSurv (reference 3)}
+\subsection{Scarf}
 
 SCARF (Semi-supervised Classification by Augmented Random Forest) is a semi-supervised learning method proposed by
-Zhu et al. in 2019. SCARF is designed to leverage both labeled and unlabeled data to improve the performance of classification tasks. The key idea behind SCARF is to augment the training data with pseudo-labels generated from the unlabeled data. SCARF utilizes a random forest classifier to assign pseudo-labels to the unlabeled data, which are then used to train a semi-supervised classifier. The augmented training data enables the classifier to learn from both labeled and unlabeled data, leading to improved performance. SCARF has been shown to outperform traditional supervised and semi-supervised learning methods in various benchmark datasets, highlighting its effectiveness in leveraging unlabeled data for classification tasks.
+Zhu et al. in 2019. SCARF is designed to leverage both labeled and unlabeled data
+to improve the performance of classification tasks. The key idea behind SCARF is
+to augment the training data with pseudo-labels generated from the unlabeled data.
+SCARF utilizes a random forest classifier to assign pseudo-labels to the unlabeled
+data, which are then used to train a semi-supervised classifier. The augmented
+training data enables the classifier to learn from both labeled and unlabeled data,
+leading to improved performance. SCARF has been shown to outperform traditional
+supervised and semi-supervised learning methods in various benchmark datasets,
+highlighting its effectiveness in leveraging unlabeled data for classification tasks.
+
+\subsection{DeepSurv}
 
 \subsection{Transformer (reference 4)}
 
-DeepSurv is a deep learning model proposed by Katzman et al. in 2018 for survival analysis. DeepSurv is designed to predict the hazard function of patients based on their clinical and genomic features. The model leverages a deep neural network architecture to learn complex patterns in the data and predict the risk of an event occurring. DeepSurv has been shown to outperform traditional survival analysis methods in various benchmark datasets, demonstrating its effectiveness in predicting patient outcomes. The model has been widely used in clinical research and has the potential to improve patient care by providing accurate risk predictions.
 
 \subsection{Other Related Works}
 
