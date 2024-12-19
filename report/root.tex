@@ -3,25 +3,9 @@
 %2345678901234567890123456789012345678901234567890123456789012345678901234567890
 %        1         2         3         4         5         6         7         8
 
-\documentclass[letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out if you need a4paper
+% Comment this line out if you need a4paper
+\documentclass[conference]{ieeeconf}
 
-%\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4 paper
-
-\IEEEoverridecommandlockouts                              % This command is only needed if 
-                                                          % you want to use the \thanks command
-
-\overrideIEEEmargins                                      % Needed to meet printer requirements.
-
-%In case you encounter the following error:
-%Error 1010 The PDF file may be corrupt (unable to open PDF file) OR
-%Error 1000 An error occurred while parsing a contents stream. Unable to analyze the PDF file.
-%This is a known problem with pdfLaTeX conversion filter. The file cannot be opened with acrobat reader
-%Please use one of the alternatives below to circumvent this error by uncommenting one or the other
-%\pdfobjcompresslevel=0
-%\pdfminorversion=4
-
-% See the \addtolength command later in the file to balance the column lengths
-% on the last page of the document
 
 % The following packages can be found on http:\\www.ctan.org
 %\usepackage{graphics} % for pdf, bitmapped graphics files
@@ -32,15 +16,23 @@
 %\usepackage{amssymb}  % assumes amsmath package installed
 
 \title{\LARGE \bf
-Breast Cancer Disease-Specific Survival Prediction Utilizing Semi-Supervised and Deep Learning Approaches
+   Breast Cancer Disease-Specific Survival Prediction Utilizing Semi-Supervised
+   and Deep Learning Approaches
 }
 
 
-\author{Allen Du,
-Angel Hsia, 
-Misael Alanis, 
-Danniv Arnon, and
-Jacob Chen% <-this % stops a space
+
+\author{\authorblockN{Allen Du\authorrefmark{1}, Angel Hsia\authorrefmark{2}, Misael Alanis\authorrefmark{3}, Danniv Arnon \authorrefmark{4} and Jacob Chen\authorrefmark{5}}
+\authorblockA{\authorrefmark{1}Graduate Institute of Biomedical Electronics and Bioinformatics\\
+National Taiwan University}
+\authorblockA{\authorrefmark{2}Graduate Institute of Communication Engineering\\
+National Taiwan University}
+\authorblockA{\authorrefmark{3}International College\\
+National Taiwan University}
+\authorblockA{\authorrefmark{4}Computer Science \\
+Technical University of Darmstadt}
+\authorblockA{\authorrefmark{5}Department of Computer Science\\
+University of Mannheim}
 }
 
 \begin{document}
@@ -63,6 +55,7 @@ This is the abstract. Example text Example text Example text Example text Exampl
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{INTRODUCTION}
 
 Breast cancer is kind of a big issue I think.
@@ -74,6 +67,30 @@ Breast cancer is kind of a big issue I think.
 First, Example text Example text Example text Example text.
 
 \subsection{SCARF (reference 2)}
+
+VIME (Variational Information Maximizing Exploration) is a method proposed by 
+Yoon et al. in 2020. It is designed for semi-supervised learning, where the goal
+ is to effectively utilize both labeled and unlabeled data. VIME leverages a
+  variational information maximization framework to enhance the representation 
+  learning process. The key components of VIME include a feature encoder, a 
+  feature decoder, and a discriminator. The feature encoder maps input data to 
+  a latent space, while the feature decoder reconstructs the input data from the 
+  latent representation. The discriminator is used to distinguish between real and generated samples, promoting the learning of meaningful representations. VIME has shown promising results in various benchmark datasets, demonstrating its effectiveness in improving the performance of semi-supervised learning tasks.
+
+\subsection{DeepSurv (reference 3)}
+
+SCARF (Semi-supervised Classification by Augmented Random Forest) is a semi-supervised learning method proposed by
+Zhu et al. in 2019. SCARF is designed to leverage both labeled and unlabeled data to improve the performance of classification tasks. The key idea behind SCARF is to augment the training data with pseudo-labels generated from the unlabeled data. SCARF utilizes a random forest classifier to assign pseudo-labels to the unlabeled data, which are then used to train a semi-supervised classifier. The augmented training data enables the classifier to learn from both labeled and unlabeled data, leading to improved performance. SCARF has been shown to outperform traditional supervised and semi-supervised learning methods in various benchmark datasets, highlighting its effectiveness in leveraging unlabeled data for classification tasks.
+
+\subsection{Transformer (reference 4)}
+
+DeepSurv is a deep learning model proposed by Katzman et al. in 2018 for survival analysis. DeepSurv is designed to predict the hazard function of patients based on their clinical and genomic features. The model leverages a deep neural network architecture to learn complex patterns in the data and predict the risk of an event occurring. DeepSurv has been shown to outperform traditional survival analysis methods in various benchmark datasets, demonstrating its effectiveness in predicting patient outcomes. The model has been widely used in clinical research and has the potential to improve patient care by providing accurate risk predictions.
+
+\subsection{Other Related Works}
+
+There are other papers that are related to this work. For example, there's this paper...
+
+
 
 Another paper is
 
@@ -161,11 +178,8 @@ Discussion of results
 
 
 
-\begin{thebibliography}{99}
-
-\bibitem{c1} First Reference 
-
-\end{thebibliography}
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv,refs}
 
 
 \end{document}
