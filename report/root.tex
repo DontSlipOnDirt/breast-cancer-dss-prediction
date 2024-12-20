@@ -8,7 +8,7 @@
 %\usepackage{epsfig} % for postscript graphics files
 %\usepackage{mathptmx} % assumes new font selection scheme installed
 %\usepackage{times} % assumes new font selection scheme installed
-%\usepackage{amsmath} % assumes amsmath package installed
+\usepackage{amsmath}
 %\usepackage{amssymb}  % assumes amsmath package installed
 
 \title{\LARGE \bf
@@ -43,9 +43,7 @@ University of Mannheim}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-This is the abstract. Example text Example text Example text Example text Example text.
-
-{\textbf{\textit{Clinical Relevance}}}\textemdash This might be clinically relevant I'm not sure, to be honest.
+Breast cancer prognosis plays a critical role in personalized treatment planning. This study explores prediction techniques by leveraging a dataset comprising 20 genetic expression variables, 10 clinical features, 500+ labelled rows with survival times, and 1000 unlabelled rows. We applied semi-supervised learning (SSL) methods to utilize the unlabelled data effectively. A Cox proportional hazards model combined with a feedforward neural network (DeepSurv) was used to predict survival time points, diverging from the traditional 5-year disease-specific survival (DSS) binary classification. Additionally, a transformer model was implemented to compare prediction accuracy. While our approach achieved higher accuracy than the original study, it did not surpass the original paper's AUC. Our key innovations include the SSL methodology and the prediction of survival time points, offering a nuanced perspective on breast cancer prognosis.
 
 \end{abstract}
 
@@ -54,18 +52,45 @@ This is the abstract. Example text Example text Example text Example text Exampl
 
 \section{Introduction}
 
-Breast cancer prognosis plays a critical role in personalized treatment planning.
-This study explores prediction techniques by leveraging a dataset comprising 20
-genetic expression variables, 10 clinical features, 500+ labelled rows with survival
-times, and 1000 unlabelled rows. We applied semi-supervised learning (SSL) methods
-to utilize the unlabelled data effectively. A Cox proportional hazards model combined
-with a feed-forward neural network (DeepSurv) was used to predict survival time points,
-diverging from the traditional 5-year disease-specific survival (DSS) binary
-classification. Additionally, a transformer model was implemented to compare
-prediction accuracy. While our approach achieved higher accuracy than the original
-study, it did not surpass the original paper's AUC. Our key innovations include
-the SSL methodology and the prediction of survival time points, offering a nuanced
-perspective on breast cancer prognosis.
+According to a 2023 news by the Ministry of Health and Welfare in Taiwan, breast
+cancer ranked third among the top ten cancer-related causes of death in Taiwan in
+2021 [WebPage]. This highlights that breast cancer remains a critical health
+issue requiring attention. Currently, most prediction methods rely on imaging
+techniques for diagnosis and prognosis assessment. This prompted us to raise the
+question: while surgical removal is the standard treatment after breast cancer is
+detected, is there a way to predict patient outcomes beyond imaging-based methods?
+Previous studies have revealed a significant correlation between breast cancer
+and gene expression \cite{lee2019clinical}. Therefore, we used patients' genetic
+information as a basis for prediction. At the same time, we recognized that
+clinical features also play a crucial role in patient prognosis. To address this,
+we combined 20 gene expression levels with 10 clinical features to construct
+survival curves that provide an understanding of overall patient outcomes.
+
+However, one challenge during data collection is the presence of patients who have
+not experienced death or disease progression within the observation period, making
+it difficult to define labels for such cases. To address this, we referred to existing
+literature to explore alternative approaches for handling this type of data. We
+adopted a semi-supervised learning (SSL) approach based on a Bayesian Variational
+Autoencoder (VAE) \cite{hsu2023learning}. This method allows the integration of labelled and
+unlabelled data, enabling predictions for previously undefined cases. By
+leveraging this approach, we addressed the challenge of limited labelled data in
+medical research and enhanced our model’s predictive capabilities.
+
+Another critical challenge in survival analysis is accurately predicting survival
+probabilities at different time points, particularly when dealing with the complex
+nonlinear relationships inherent in medical data. To tackle this issue, we referred
+to additional studies that proposed effective solutions \cite{katzman2018deepsurv} and subsequently
+integrated the Cox Proportional Hazards Model with the DeepSurv deep learning
+framework, capitalizing on their respective strengths. The Cox model, a classic
+method for survival analysis, provides a clear mathematical structure for
+estimating survival probabilities. However, it relies on the proportional
+hazards assumption and cannot effectively model nonlinear features. To overcome
+these limitations, we incorporated DeepSurv, which uses neural networks to learn
+nonlinear patterns from data, performs well with high-dimensional datasets, and
+is not constrained by the proportional hazards assumption. By combining these two
+methods, we were able to predict risks at various time points and further generate
+personalized survival curves for each patient.
+
 
 \section{Related works}
 
@@ -74,7 +99,7 @@ perspective on breast cancer prognosis.
 VIME (Variational Information Maximizing Exploration) \cite{bahri2022scarf}
 is a method proposed by 
 Yoon et al. in 2020. It is designed for semi-supervised learning, where the goal
-is to effectively utilize both labeled and unlabeled data. VIME leverages a
+is to effectively utilize both labelled and unlabelled data. VIME leverages a
 variational information maximization framework to enhance the representation 
 learning process. The key components of VIME include a feature encoder, a 
 feature decoder, and a discriminator. The feature encoder maps input data to 
@@ -87,54 +112,78 @@ its effectiveness in improving the performance of semi-supervised learning tasks
 \subsection{Scarf}
 
 SCARF (Semi-supervised Classification by Augmented Random Forest) is a semi-supervised learning method proposed by
-Zhu et al. in 2019. SCARF is designed to leverage both labeled and unlabeled data
+Zhu et al. in 2019. SCARF is designed to leverage both labelled and unlabelled data
 to improve the performance of classification tasks. The key idea behind SCARF is
-to augment the training data with pseudo-labels generated from the unlabeled data.
-SCARF utilizes a random forest classifier to assign pseudo-labels to the unlabeled
+to augment the training data with pseudo-labels generated from the unlabelled data.
+SCARF utilizes a random forest classifier to assign pseudo-labels to the unlabelled
 data, which are then used to train a semi-supervised classifier. The augmented
-training data enables the classifier to learn from both labeled and unlabeled data,
+training data enables the classifier to learn from both labelled and unlabelled data,
 leading to improved performance. SCARF has been shown to outperform traditional
 supervised and semi-supervised learning methods in various benchmark datasets,
-highlighting its effectiveness in leveraging unlabeled data for classification tasks.
+highlighting its effectiveness in leveraging unlabelled data for classification tasks.
 
 \subsection{DeepSurv}
+\subsubsection{Paper Overview}
+The paper introduces DeepSurv, a deep learning model for survival analysis, which predicts the time until an event (e.g., death, disease progression) while accounting for censored data. Traditional survival models like Cox proportional hazards regression struggle with complex, non-linear relationships among covariates. DeepSurv addresses this limitation using deep neural networks to model these interactions.
+
+\subsubsection{Model Architecture}
+DeepSurv is a feedforward neural network that takes patient features (e.g., age,
+biomarkers, treatments) as inputs and outputs a risk score. This score models the
+hazard function as $h(t \mid x) = h_0(t) \exp(f(x; \theta))$, where $f(x; \theta)$ is the neural network
+output, x is the input features, and $\theta$ represents the network weights. Unlike
+Cox models, DeepSurv does not explicitly estimate $h_0(t)$. Instead, it optimizes
+the negative partial log-likelihood to learn parameters that maximize the likelihood
+of observed survival times, even with censored data. 
+
+By employing multiple hidden layers and non-linear activations, DeepSurv captures complex feature interactions that traditional Cox models cannot. It also offers tools to evaluate covariate influence, enhancing interpretability. 
+
+\subsubsection{Novelty and Impact}
+DeepSurv integrates deep learning with survival analysis, overcoming traditional Cox models' assumption of linear relationships between covariates. This makes it particularly effective in datasets with non-linear interactions, such as genetic studies, where biomarkers interact in complex ways.
+Compared to Random Survival Forests (RSF) and DeepHit, DeepSurv provides a unique balance of flexibility and interpretability. RSF handles non-linearities but struggles with high-dimensional data, while DeepHit models competing risks but lacks interpretability. DeepSurv’s Cox-based framework captures intricate patterns, such as how genetic mutations interact with age or treatments to influence survival outcomes. This is especially valuable in personalized medicine and oncology, where such insights can guide treatment decisions.
+DeepSurv’s relative risk score framework supports actionable clinical decision-making by ranking patients’ risks. For example, it can help determine whether patients with specific risk factors should undergo aggressive or conservative treatment. Applied to our mixed genetic and clinical dataset, DeepSurv successfully uncovers high-level feature interactions, making it a powerful tool for survival analysis in diverse domains.
+
 
 \subsection{Transformer (reference 4)}
 
 
-\subsection{Other Related Works}
 
-There are other papers that are related to this work. For example, there's this paper...
+\section{Method}
 
-
-
-Another paper is
-
-\subsection{Related Paper 3}
-
-And there's this paper...
-
-
-
-\section{METHOD}
-
-The methods
-
-\subsection{Models}
-
+\subsection{Pseudo-label generation}
 \begin{itemize}
-
-\item DeepSurv
-\item Transformer
-
+   \item VIME
+   \item SCARF
+   \item Random Forest
 \end{itemize}
 
-Furthermore, 
+\subsection{Training with DeepSurv}
+The DeepSurv training process begins by defining the neural network architecture with key parameters. The input size matches the number of features, while hidden layers capture non-linear patterns in survival data. Regularization techniques like L1 and L2 penalties prevent overfitting, and dropout improves generalization by adding randomness. Batch normalization stabilizes training by normalizing activations.
+The model uses the Adam optimizer for adaptive learning and a custom Cox proportional hazards loss function to handle censored data. Early stopping monitors validation loss to halt training when performance plateaus, avoiding overfitting. Training is conducted with mini-batches of 32 samples for efficiency and stability. Confidence weights prioritize reliable pseudo-labelled data, with weights ranging from 0 to 1 (labelled data weight = 1), ensuring predictions reflect data quality. 
+DeepSurv first predicts risk scores for the combined dataset (unlabeled and pseudo-labeled data). Using the labelled subset, the baseline hazard function is calculated by sorting the data by survival time (“DssTime”) to maintain temporal order. For each unique survival time, the number of events (label = 1) is counted, and the sum of risk scores for individuals still at risk is determined. The hazard at each time point is then computed using:  
 
+$$
+\text{Hazard}(t) = \frac{\text{Events at } t}{\sum \text{Risk Scores at Risk at } t}
+$$
 
-\section{EXPERIMENT SETUPS AND DATASETS}
+The cumulative hazard function, representing accumulated risk up to a time point ttt, is calculated by summing hazards over time. This function is interpolated to estimate the baseline hazard at desired time points, allowing flexible survival analysis. In this model, time points [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] were used. 
+Then DeepSurv predicts risk scores for the test dataset. These risk scores, combined with the interpolated baseline hazard, calculate survival scores for the predefined time points. 
 
-This section
+The survival probability at time $t$ is calculated as:
+$$
+S(t) = \exp \left( -H_0(t) \cdot \exp(\text{Risk Score}) \right) 
+$$
+
+Where $H_0(t)$ is the interpolated cumulative baseline hazard at $t$, and
+$\exp(\text{Risk Score})$ represents the individual's risk.
+
+The survival scores are then compared against a threshold to predict the label, with the threshold optimized to improve prediction accuracy. The survival scores are for each time point for every patient and are used to make a survival curve. 
+
+The novelty of incorporating a baseline hazard calculation in our method lies in addressing a limitation of the original DeepSurv model, which did not utilize a baseline hazard function. By integrating the baseline hazard, we enable the model to capture the absolute risk at specific time points rather than relying solely on relative risk scores. This enhancement bridges the gap between risk score predictions and real-world survival probabilities, providing more interpretable and clinically relevant outputs. 
+Our approach to calculating the baseline hazard is also unique. By leveraging the risk scores predicted by the DeepSurv model and aligning them with survival times from the labelled data, we compute a cumulative baseline hazard function. This function is interpolated to estimate baseline hazards for any given time point, ensuring flexibility and precision in survival probability calculations. 
+This innovation using a baseline hazard and calculating it dynamically based on predicted risk scores provides a robust mechanism to connect survival models with practical applications, such as individualized survival predictions and time-specific risk assessments. This addition significantly improves the model's utility in real-world scenarios, where understanding absolute survival probabilities is critical.
+
+\section{Experiment setups and datasets}
+
 
 \section{RESULTS}
 
@@ -169,11 +218,21 @@ DNN & 0.73\\
 
 Figures are cool
 
+
 \section{DISCUSSION}
 
-Discussion of results 
+Since DNA expression levels only reflect the current status of a patient, we have envisioned additional approaches to further enhance our model. By obtaining data on DNA expression levels both before and after treatment, we could analyse the genetic changes induced by treatment. This would enable us to predict potential post-treatment genetic variations and use our model to generate survival curves accordingly. 
+This capability would be particularly valuable for supporting discussions between doctors and patients. Doctors could discuss not only surgical risks and survival probabilities but also life quality and survival likelihood with greater precision. For physicians, having more reference data and evidence to support their clinical decisions strengthens their confidence in recommendations. For patients, it provides a clearer understanding of the potential impacts of different treatment options, helping them decide whether undergoing a specific surgery is worthwhile.
+Therefore, we believe that the model we have developed offers substantial potential for further advancement and application in clinical practice. 
+
 
 \section{CONCLUSION}
+
+In this study, we presented a novel approach distinct from traditional imaging-based prediction models by utilizing gene expression and clinical features to estimate survival probabilities. This method addresses the limitation of relying on imaging data, particularly in cases where no further imaging is available after surgical removal. Additionally, it offers an efficient tool for routine prognosis assessment, enhancing its practicality and flexibility in clinical settings.
+To tackle the challenge of data annotation often encountered in clinical practice, we incorporated a semi-supervised learning (SSL) framework. By integrating labelled and unlabeled data, this approach not only overcomes the limitation of scarce annotated medical data but also provides an innovative solution to enhance the predictive capacity of survival analysis models. This advancement offers a practical pathway to address key challenges in the medical domain.
+Furthermore, our model demonstrated significant potential in analyzing genetic changes and predicting survival curves following treatment. This capability supports clinicians in making more accurate assessments of surgical risks, survival probabilities, and quality of life, facilitating informed discussions with patients. For clinicians, the model provides robust data-driven support to enhance clinical decision-making, while for patients, it offers a clearer understanding of treatment impacts to support their decision-making process.
+Although the current model focuses on gene expression and clinical feature data, it has the potential to integrate other multimodal datasets, such as metabolomics, to further improve its predictive accuracy and application scope. We envision that this research direction will become a cornerstone of precision medicine, advancing the development of personalized healthcare and fostering more data-informed medical decisions.
+
 
 \addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
                                   % on the last page of the document manually. It shortens
